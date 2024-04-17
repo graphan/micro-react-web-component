@@ -1,16 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
-import { defineCustomElement } from '@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js';
 
-class MyCustomElement extends HTMLElement {
+class SAMElement extends HTMLElement {
   connectedCallback() {
-    ReactDOM.render(<App />, this);
+    const mountPoint = document.createElement('div');
+    this.appendChild(mountPoint);
+    ReactDOM.render(<App />, mountPoint);
   }
   disconnectedCallback() {
-    ReactDOM.unmountComponentAtNode(this);
+    ReactDOM.unmountComponentAtNode(this.firstChild);
   }
 }
 
-defineCustomElement(MyCustomElement, 'my-custom-element');
+// Register the custom element
+window.customElements.define('sam-element', SAMElement);
